@@ -123,7 +123,8 @@ FUNCTIONS = { 1: (flight_by_id, "Show flight by ID"),
               2: (flights_by_date, "Show flights by date"),
               3: (delayed_flights_by_airline, "Delayed flights by airline"),
               4: (delayed_flights_by_airport, "Delayed flights by origin airport"),
-              5: (quit, "Exit")
+              5: (airline_delayed_flights_graph, "Visual graph of percentages of delayed flights by airline"),
+              6: (quit, "Exit")
              }
 
 
