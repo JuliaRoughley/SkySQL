@@ -3,18 +3,17 @@ import visuals
 from datetime import datetime
 import sqlalchemy
 
-SQLITE_URI = 'sqlite:///Data/flights.sqlite3'
+SQLITE_URI = 'sqlite:///Data/test_flights.sqlite3'
 IATA_LENGTH = 3
 
 
 def airline_delayed_flights_graph(data_manager):
-    """Asks the user for a textual airline name (any string will work here). The first step is to
-    run the query using the data object method "get_delayed_flights_by_airline". When results are back,
+    """The first step is to run the query using the data object method "get_delayed_flights_by_airline". When results are back,
     it feeds these into the visuals object method called..............."""
 
-    airline_input = input("Enter airline name: ")
-    results = data_manager.get_delayed_flights_by_airline(airline_input)
+    results = data_manager.get_all_delayed_flights()
     visuals.percentage_delayed_flights_by_airline(results)
+
 
 def delayed_flights_by_airline(data_manager):
     """

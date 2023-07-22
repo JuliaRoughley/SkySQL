@@ -15,6 +15,10 @@ QUERY_DELAYED_FLIGHTS_BY_AIRPORT = "SELECT flights.*, airlines.airline, flights.
                                    "FROM flights JOIN airlines ON flights.airline = airlines.id " \
                                    "WHERE flights.ORIGIN_AIRPORT = :airport_code"
 
+QUERY_ALL_DELAYED_FLIGHTS = "SELECT flights.*, airlines.airline, flights.DEPARTURE_DELAY as DELAY " \
+                            "FROM flights JOIN airlines ON flights.airline = airlines.id " \
+                            "WHERE DELAY > 0"
+
 
 class FlightData:
     """
@@ -84,3 +88,13 @@ class FlightData:
         """
         params = {'airport_code': airport}
         return self._execute_query(QUERY_DELAYED_FLIGHTS_BY_AIRPORT, params)
+
+    def get_all_delayed_flights(self):
+        """Retrieves all delayed flights and returns a list of records.
+        """
+        results = self._execute_query(QUERY_ALL_DELAYED_FLIGHTS)
+        filtered_results = []
+        for flight in results:
+            if flight['DEPARTURE_DELAY'] != '':
+                filtered_results.append(flight)
+        return filtered_results

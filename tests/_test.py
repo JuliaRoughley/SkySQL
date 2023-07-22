@@ -1,7 +1,7 @@
 import unittest
 from data import FlightData
 
-SQLITE_URI = 'sqlite:///flights.sqlite3'
+SQLITE_URI = 'sqlite:///test_flights.sqlite3'
 
 
 class TestFlightData(unittest.TestCase):
