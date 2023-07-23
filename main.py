@@ -11,7 +11,7 @@ def airline_delayed_flights_graph(data_manager):
     """The first step is to run the query using the data object method "get_delayed_flights_by_airline". When results are back,
     it feeds these into the visuals object method called..............."""
 
-    results = data_manager.get_all_delayed_flights()
+    results = data_manager.get_all_delayed_flights_by_airlines()
     visuals.percentage_delayed_flights_by_airline(results)
 
 

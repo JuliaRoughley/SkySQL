@@ -15,9 +15,11 @@ QUERY_DELAYED_FLIGHTS_BY_AIRPORT = "SELECT flights.*, airlines.airline, flights.
                                    "FROM flights JOIN airlines ON flights.airline = airlines.id " \
                                    "WHERE flights.ORIGIN_AIRPORT = :airport_code"
 
-QUERY_ALL_DELAYED_FLIGHTS = "SELECT flights.*, airlines.airline, flights.DEPARTURE_DELAY as DELAY " \
+QUERY_ALL_DELAYED_FLIGHTS = "SELECT flights.*, airlines.airline, COUNT(*), flights.DEPARTURE_DELAY as DELAY, " \
+                            "COUNT(*) as NUMBER_OF_DELAYS " \
                             "FROM flights JOIN airlines ON flights.airline = airlines.id " \
-                            "WHERE DELAY > 0"
+                            "WHERE flights.DEPARTURE_DELAY > 0 AND flights.DEPARTURE_DELAY <> '' GROUP BY " \
+                            "flights.airline"
 
 
 class FlightData:
@@ -89,12 +91,12 @@ class FlightData:
         params = {'airport_code': airport}
         return self._execute_query(QUERY_DELAYED_FLIGHTS_BY_AIRPORT, params)
 
-    def get_all_delayed_flights(self):
+    def get_all_delayed_flights_by_airlines(self):
         """Retrieves all delayed flights and returns a list of records.
         """
         results = self._execute_query(QUERY_ALL_DELAYED_FLIGHTS)
-        filtered_results = []
-        for flight in results:
-            if flight['DEPARTURE_DELAY'] != '':
-                filtered_results.append(flight)
-        return filtered_results
+        total_delay = sum(result['NUMBER_OF_DELAYS'] for result in results)
+        for result in results:
+            result['DELAY_PERCENTAGE'] = (result['NUMBER_OF_DELAYS'] / total_delay) * 100
+
+        return results
