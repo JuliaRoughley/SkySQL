@@ -3,7 +3,7 @@ import visuals
 from datetime import datetime
 import sqlalchemy
 
-SQLITE_URI = 'sqlite:///Data/test_flights.sqlite3'
+SQLITE_URI = 'sqlite:///Data/flights.sqlite3'
 IATA_LENGTH = 3
 
 
